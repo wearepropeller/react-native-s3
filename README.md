@@ -1,5 +1,10 @@
 # React Native AWS S3
 
+[![NPM version](http://img.shields.io/npm/v/react-native-s3.svg?style=flat)](https://www.npmjs.com/package/react-native-s3)
+[![Build Status](https://travis-ci.org/mybigday/react-native-s3.svg)](https://travis-ci.org/mybigday/react-native-s3)
+[![Dependency Status](https://david-dm.org/mybigday/react-native-s3.svg)](https://david-dm.org/mybigday/react-native-s3)
+[![devDependency Status](https://david-dm.org/mybigday/react-native-s3/dev-status.svg)](https://david-dm.org/mybigday/react-native-s3#info=devDependencies)
+
 A React Native wrapper for AWS [iOS](https://github.com/aws/aws-sdk-ios)/[Android](https://github.com/aws/aws-sdk-android) S3 SDK.
 
 We currently implements `TransferUtility`, see [iOS](http://docs.aws.amazon.com/mobile/sdkforios/developerguide/s3transferutility.html)/[Android](http://docs.aws.amazon.com/mobile/sdkforandroid/developerguide/getting-started-store-retrieve-s3-transferutility.html) docs for more information.
