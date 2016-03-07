@@ -132,7 +132,8 @@ import { transferUtility } from 'react-native-s3';
 
 #### `transferUtility.setupWithNative()`
 
-Return: Boolean - `true` or `false` depending on the setup successful.
+Return: Promise - will resolve arguments:
+* Boolean - `true` or `false` depending on the setup successful.
 
 #### `transferUtility.setupWithBasic(options)`
 
