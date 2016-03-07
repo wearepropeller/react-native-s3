@@ -1,0 +1,7 @@
+rootProject.name = 'S3Sample'
+
+include ':app'
+include ':react-native-s3'
+project(':react-native-s3').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-s3/android')
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
