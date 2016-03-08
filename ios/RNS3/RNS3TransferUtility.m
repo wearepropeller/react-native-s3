@@ -123,7 +123,7 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options) {
         @"totalBytes":@(totalBytes)
       },
       @"type":type,
-      @"error":errorObj
+      @"error":errorObj ? errorObj : [NSNull null]
     }];
 }
 
