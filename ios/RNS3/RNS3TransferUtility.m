@@ -39,7 +39,7 @@ static bool alreadyInitialize = false;
     regionType = AWSRegionUSWest2;
   } else if ([region isEqualToString:@"eu-west-1"]) {
     regionType = AWSRegionEUWest1;
-  } else if ([region isEqualToString:@"us-central-1"]) {
+  } else if ([region isEqualToString:@"eu-central-1"]) {
     regionType = AWSRegionEUCentral1;
   } else if ([region isEqualToString:@"ap-southeast-1"]) {
     regionType = AWSRegionAPSoutheast1;
