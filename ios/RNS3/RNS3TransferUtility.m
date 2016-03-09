@@ -193,7 +193,7 @@ RCT_EXPORT_METHOD(initialize) {
 }
 
 RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  NSURL *fileURL = [NSURL URLWithString:[options objectForKey:@"file"]];
+  NSURL *fileURL = [NSURL fileURLWithPath:[options objectForKey:@"file"]];
   NSDictionary *meta = [options objectForKey:@"meta"];
   
   AWSS3TransferUtilityUploadExpression *expression = [AWSS3TransferUtilityUploadExpression new];
@@ -253,7 +253,7 @@ RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlo
 }
 
 RCT_EXPORT_METHOD(download: (NSDictionary *)options resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  NSURL *fileURL = [NSURL URLWithString:[options objectForKey:@"file"]];
+  NSURL *fileURL = [NSURL fileURLWithPath:[options objectForKey:@"file"]];
 
   AWSS3TransferUtilityDownloadExpression *expression = [AWSS3TransferUtilityDownloadExpression new];
   expression.downloadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
