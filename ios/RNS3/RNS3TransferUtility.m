@@ -116,8 +116,8 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options) {
     body:@{
       @"task":@{
         @"id":@([task taskIdentifier]),
-        @"bucket":[task bucket],
-        @"key":[task key],
+        // @"bucket":[task bucket],
+        // @"key":[task key],
         @"state":state,
         @"bytes":@(bytes),
         @"totalBytes":@(totalBytes)
@@ -242,8 +242,8 @@ RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlo
       resolve(@[
         @{
           @"id": @([uploadTask taskIdentifier]),
-          @"bucket": [uploadTask bucket],
-          @"key": [uploadTask key],
+          // @"bucket": [uploadTask bucket],
+          // @"key": [uploadTask key],
           @"state":@"waiting"
         }
       ]);
@@ -296,8 +296,8 @@ RCT_EXPORT_METHOD(download: (NSDictionary *)options resolver:(RCTPromiseResolveB
       resolve(@[
         @{
           @"id": @([downloadTask taskIdentifier]),
-          @"bucket":[downloadTask bucket],
-          @"key":[downloadTask key],
+          //@"bucket":[downloadTask bucket],
+          //@"key":[downloadTask key],
           @"state":@"waiting"
         }
       ]);
@@ -361,6 +361,7 @@ RCT_EXPORT_METHOD(cancel:(int64_t)taskIdentifier) {
     if (task.result) {
       NSArray<AWSS3TransferUtilityUploadTask*> *uploadTasks = task.result;
       for (AWSS3TransferUtilityUploadTask *task in uploadTasks) {
+
         if ([task taskIdentifier] == taskIdentifier) {
           handler(@{
             @"type":@"upload",
@@ -395,8 +396,8 @@ RCT_EXPORT_METHOD(getTask:(int64_t)taskIdentifier resolver:(RCTPromiseResolveBlo
       AWSS3TransferUtilityTask *task = [result objectForKey:@"task"];
       resolve(@{
         @"id":@([task taskIdentifier]),
-        @"bucket":[task bucket],
-        @"key":[task key],
+        //@"bucket":[task bucket],
+        //@"key":[task key],
       });
     } else {
       resolve(nil);
@@ -414,8 +415,8 @@ RCT_EXPORT_METHOD(getTasks:(NSString *)type resolver:(RCTPromiseResolveBlock)res
         for (AWSS3TransferUtilityUploadTask *task in uploadTasks) {
           [result addObject:@{
             @"id":@([task taskIdentifier]),
-            @"bucket":[task bucket],
-            @"key":[task key],
+            // @"bucket":[task bucket],
+            // @"key":[task key],
           }];
         }
         resolve(result);
@@ -431,8 +432,8 @@ RCT_EXPORT_METHOD(getTasks:(NSString *)type resolver:(RCTPromiseResolveBlock)res
         for (AWSS3TransferUtilityDownloadTask *task in downloadTasks) {
           [result addObject:@{
             @"id":@([task taskIdentifier]),
-            @"bucket":[task bucket],
-            @"key":[task key],
+            // @"bucket":[task bucket],
+            // @"key":[task key],
           }];
         }
         resolve(result);
