@@ -102,7 +102,7 @@ class S3Sample extends Component {
 	};
 
 	handleDownloadFile = async () => {
-		const task = await transferUtility.upload({
+		const task = await transferUtility.download({
 			bucket: bucketName,
 			key: downloadFileKey,
 			file: downloadFilePath
