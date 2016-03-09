@@ -239,14 +239,12 @@ RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlo
       NSLog(@"Exception: %@", task.exception);
     } else if (task.result) {
       AWSS3TransferUtilityUploadTask *uploadTask = task.result;
-      resolve(@[
-        @{
-          @"id": @([uploadTask taskIdentifier]),
-          // @"bucket": [uploadTask bucket],
-          // @"key": [uploadTask key],
-          @"state":@"waiting"
-        }
-      ]);
+      resolve(@{
+        @"id": @([uploadTask taskIdentifier]),
+        // @"bucket": [uploadTask bucket],
+        // @"key": [uploadTask key],
+        @"state":@"waiting"
+      });
     }
     return nil;
   }];
@@ -293,14 +291,12 @@ RCT_EXPORT_METHOD(download: (NSDictionary *)options resolver:(RCTPromiseResolveB
       NSLog(@"Exception: %@", task.exception);
     } else if (task.result) {
       AWSS3TransferUtilityDownloadTask *downloadTask = task.result;
-      resolve(@[
-        @{
-          @"id": @([downloadTask taskIdentifier]),
-          //@"bucket":[downloadTask bucket],
-          //@"key":[downloadTask key],
-          @"state":@"waiting"
-        }
-      ]);
+      resolve(@{
+        @"id": @([downloadTask taskIdentifier]),
+        //@"bucket":[downloadTask bucket],
+        //@"key":[downloadTask key],
+        @"state":@"waiting"
+      });
     }
     return nil;
   }];
