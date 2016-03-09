@@ -35,9 +35,9 @@ function saveTaskExtras() {
 	return store.save(storeKey, taskExtras);
 }
 
-async function setTaskExtra(task, values) {
+async function setTaskExtra(task, values, isNew) {
 	const { id } = task;
-	if (!taskExtras[id]) {
+	if (!taskExtras[id] || isNew) {
 		taskExtras[id] = values;
 	} else {
 		if (taskExtras[id].bytes && !values.bytes) {
@@ -87,7 +87,7 @@ class TransferUtility {
 			bucket: options.bucket,
 			key: options.key,
 			state: task.state
-		});
+		}, true);
 		return finalTask;
 	}
 
@@ -97,7 +97,7 @@ class TransferUtility {
 			bucket: options.bucket,
 			key: options.key,
 			state: task.state
-		});
+		}, true);
 		return finalTask;
 	}
 
