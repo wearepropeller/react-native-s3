@@ -12,6 +12,7 @@ import fs from "react-native-fs";
 
 const bucketName = "";
 const uploadFileKey = "";
+const contentType = "image/jpeg";
 const uploadFilePath = fs.DocumentDirectoryPath + "/";
 const downloadFileKey = "";
 const downloadFilePath = fs.DocumentDirectoryPath + "/";
@@ -88,7 +89,13 @@ class S3Sample extends Component {
 			key: uploadFileKey,
 			file: uploadFilePath,
 			meta: {
-				contentType: "image/jpeg"
+				contentType
+			}
+		});
+		this.setState({
+			uploadTasks: {
+				...this.state.uploadTasks,
+				...{ [task.id]: task }
 			}
 		});
 		this.subscribeWithUpdateState(task.id, "uploadTasks");
@@ -99,6 +106,12 @@ class S3Sample extends Component {
 			bucket: bucketName,
 			key: downloadFileKey,
 			file: downloadFilePath
+		});
+		this.setState({
+			downloadTasks: {
+				...this.state.downloadTasks,
+				...{ [task.id]: task }
+			}
 		});
 		this.subscribeWithUpdateState(task.id, "downloadTasks");
 	};
