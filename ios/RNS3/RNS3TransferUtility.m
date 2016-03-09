@@ -85,6 +85,11 @@ static bool alreadyInitialize = false;
 
 RCT_EXPORT_MODULE();
 
+- (dispatch_queue_t)methodQueue
+{
+  return dispatch_queue_create("com.mybigday.rn.RNS3TransferUtility", DISPATCH_QUEUE_SERIAL);
+}
+
 RCT_EXPORT_METHOD(setupWithNative) {
   [self setup:nativeCredentialsOptions];
 }
