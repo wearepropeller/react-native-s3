@@ -217,14 +217,14 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
 
     TransferObserver task;
     if (meta != null) {
-      String contentType = meta.getString("contentType");
-      if (contentType != null) {
+      try {
+        String contentType = meta.getString("contentType");
         metaData.setContentType(contentType);
-      }
-      String contentMD5 = meta.getString("contentMD5");
-      if (contentMD5 != null) {
+      } catch (Exception e) {}
+      try {
+        String contentMD5 = meta.getString("contentMD5");
         metaData.setContentMD5(contentMD5);
-      }
+      } catch (Exception e) {}
       // TODO: more field
 
       task = transferUtility.upload(bucket, key, file, metaData);

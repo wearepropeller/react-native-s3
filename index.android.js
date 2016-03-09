@@ -53,6 +53,9 @@ class TransferUtility {
 	}
 
 	async upload(options = {}) {
+		if (!options.meta) {
+			options.meta = {};
+		}
 		const task = await RNS3TransferUtility.upload(options);
 
 		return task;
