@@ -83,13 +83,21 @@ class TransferUtility {
 			options.meta = {};
 		}
 		const task = await RNS3TransferUtility.upload(options);
-		const finalTask = await setTaskExtra(task, { state: "in_progress" });
+		const finalTask = await setTaskExtra(task, {
+			bucket: options.bucket,
+			key: options.key,
+			state: task.state
+		});
 		return finalTask;
 	}
 
 	async download(options = {}) {
 		const task = await RNS3TransferUtility.download(options);
-		const finalTask = await setTaskExtra(task, { state: "in_progress" });
+		const finalTask = await setTaskExtra(task, {
+			bucket: options.bucket,
+			key: options.key,
+			state: task.state
+		});
 		return finalTask;
 	}
 
