@@ -164,11 +164,11 @@ New a upload task.
 
 * `options` Object
   * `bucket` String - a S3 bucket name
-  * `key` String - the object key in the bucket
+  * `key` String - the object key/destination in the bucket
   * `file` String - the file path to upload
   * `meta` Object
     * `contentType` String - the file content-type
-    * `contentMD5` String - the file md5 hash
+    * `contentMD5` String - the file md5 hash (optional)
 
 Return: Promise - will resolve, see following arguments:
 * Object - a [Task](#the-task-object-structure) object
@@ -181,7 +181,7 @@ New a download task.
 
 * `options` Object
   * `bucket` String - a S3 bucket name
-  * `key` String - the object key in the bucket
+  * `key` String - the object key/destination in the bucket
   * `file` String - donwload save file path
 
 Return: Promise - will resolve, see following arguments:
