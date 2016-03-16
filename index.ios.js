@@ -7,6 +7,10 @@ const transferTypes = ["upload", "download"];
 const defaultOptions = {
 	region: "eu-west-1"
 };
+const defaultCognitoOptions = {
+	...defaultOptions,
+	cognito_region: "eu-west-1"
+};
 const storeKey = "@_RNS3_Tasks_Extra";
 let taskExtras;	// [id]: { state, bytes, totalBytes}
 const subscribeCallbacks = {};	// [id]: function
@@ -72,7 +76,7 @@ class TransferUtility {
 		if (!options.identity_pool_id) {
 			return false;
 		}
-		RNS3TransferUtility.setupWithCognito({ ...defaultOptions, ...options});
+		RNS3TransferUtility.setupWithCognito({ ...defaultCognitoOptions, ...options});
 		await getTaskExtras();
 		RNS3TransferUtility.initialize();
 		return true;

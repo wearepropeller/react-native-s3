@@ -151,6 +151,7 @@ Return: Promise - will resolve arguments:
 * `options` Object
   * `region` String - a S3 Region (default: eu-west-1)
   * `identity_pool_id` String - the Amazon Cogntio identity pool
+  * `cognito_region` String - a Cognito Region (default: eu-west-1)
   * `caching` Boolean - use `CognitoCachingCredentialsProvider` instead of `CognitoCredentialsProvider` __(Android)__
 
 See AWS CognitoCredentialsProvider ([iOS](http://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSCognitoCredentialsProvider.html)/[Android](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/auth/CognitoCredentialsProvider.html)) for more information.

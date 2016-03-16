@@ -142,16 +142,17 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
         break;
       // TODO: support accountId, unauthRoleArn, authRoleArn
       case COGNITO:
+        String cognitoRegion = (String) credentialsOptions.get("cognito_region");
         if (!(Boolean) credentialsOptions.get("caching")) {
           credentialsProvider = new CognitoCredentialsProvider(
             (String) credentialsOptions.get("identity_pool_id"),
-            Regions.fromName(regionStr)
+            Regions.fromName(cognitoRegion)
           );
         } else {
           credentialsProvider = new CognitoCachingCredentialsProvider(
             context,
             (String) credentialsOptions.get("identity_pool_id"),
-            Regions.fromName(regionStr)
+            Regions.fromName(cognitoRegion)
           );
         }
         break;
@@ -203,6 +204,7 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
     credentialsOptions.put("type", CredentialType.COGNITO);
     credentialsOptions.put("identity_pool_id", options.getString("identity_pool_id"));
     credentialsOptions.put("region", options.getString("region"));
+    credentialsOptions.put("cognito_region", options.getString("cognito_region"));
     credentialsOptions.put("caching", options.getBoolean("caching"));
     promise.resolve(setup(credentialsOptions));
   }

@@ -6,6 +6,10 @@ const transferTypes = ["upload", "download"];
 const defaultOptions = {
 	region: "eu-west-1"
 };
+const defaultCognitoOptions = {
+	...defaultOptions,
+	cognito_region: "eu-west-1"
+};
 const subscribeCallbacks = {};	// [id]: function
 
 DeviceEventEmitter.addListener("@_RNS3_Events", event => {
@@ -45,7 +49,7 @@ class TransferUtility {
 		if (!options.caching) {
 			options.caching = false;
 		}
-		const result = await RNS3TransferUtility.setupWithCognito({ ...defaultOptions, ...options });
+		const result = await RNS3TransferUtility.setupWithCognito({ ...defaultCognitoOptions, ...options });
 		if (result) {
 			RNS3TransferUtility.initializeRNS3();
 		}
