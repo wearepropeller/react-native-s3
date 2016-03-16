@@ -37,6 +37,12 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
   };
   public static final Map<String, Object> nativeCredentialsOptions = new HashMap<String, Object>();
 
+  static {
+    // default options
+    nativeCredentialsOptions.put("region", "eu-west-1");
+    nativeCredentialsOptions.put("cognito_region", "eu-west-1");
+  }
+
   private static boolean alreadyInitialize = false;
   private Context context;
   private AmazonS3 s3;

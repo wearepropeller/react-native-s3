@@ -12,6 +12,9 @@ static bool alreadyInitialize = false;
     return nativeCredentialsOptions;
   }
   nativeCredentialsOptions = [NSMutableDictionary new];
+  // default options
+  [nativeCredentialsOptions setObject:@"eu-west-1" forKey:@"region"];
+  [nativeCredentialsOptions setObject:@"eu-west-1" forKey:@"cognito_region"];
   return nativeCredentialsOptions;
 };
 
