@@ -3,6 +3,16 @@
 static NSMutableDictionary *nativeCredentialsOptions;
 static bool alreadyInitialize = false;
 
+@interface RNS3TransferUtility ()
+
+@property (copy, nonatomic) AWSS3TransferUtilityUploadCompletionHandlerBlock completionUploadHandler;
+@property (copy, nonatomic) AWSS3TransferUtilityUploadProgressBlock uploadProgress;
+
+@property (copy, nonatomic) AWSS3TransferUtilityDownloadCompletionHandlerBlock completionDownloadHandler;
+@property (copy, nonatomic) AWSS3TransferUtilityDownloadProgressBlock downloadProgress;
+
+@end
+
 @implementation RNS3TransferUtility
 
 @synthesize bridge = _bridge;
@@ -136,7 +146,7 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options) {
 RCT_EXPORT_METHOD(initialize) {
   if (alreadyInitialize) return;
   alreadyInitialize = true;
-  AWSS3TransferUtilityUploadProgressBlock uploadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+  self.uploadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
     [self sendEvent:task
                type:@"upload"
               state:@"in_progress"
@@ -144,7 +154,7 @@ RCT_EXPORT_METHOD(initialize) {
          totalBytes:totalBytesExpectedToSend
               error:nil];
   };
-  AWSS3TransferUtilityUploadCompletionHandlerBlock completionUploadHandler = ^(AWSS3TransferUtilityUploadTask *task, NSError *error) {
+  self.completionUploadHandler = ^(AWSS3TransferUtilityUploadTask *task, NSError *error) {
     NSString *state;
     if (error) state = @"failed"; else state = @"completed";
     [self sendEvent:task
@@ -155,7 +165,7 @@ RCT_EXPORT_METHOD(initialize) {
               error:error];
   };
   
-  AWSS3TransferUtilityDownloadProgressBlock downloadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+  self.downloadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
     [self sendEvent:task
                type:@"download"
               state:@"in_progress"
@@ -163,7 +173,7 @@ RCT_EXPORT_METHOD(initialize) {
          totalBytes:totalBytesExpectedToWrite
               error:nil];
   };
-  AWSS3TransferUtilityDownloadCompletionHandlerBlock completionDownloadHandler = ^(AWSS3TransferUtilityDownloadTask *task, NSURL *location, NSData *data, NSError *error) {
+  self.completionDownloadHandler = ^(AWSS3TransferUtilityDownloadTask *task, NSURL *location, NSData *data, NSError *error) {
     NSString *state;
     if (error) state = @"failed"; else state = @"completed";
     [self sendEvent:task
@@ -179,14 +189,14 @@ RCT_EXPORT_METHOD(initialize) {
     enumerateToAssignBlocksForUploadTask:^(AWSS3TransferUtilityUploadTask *uploadTask, __autoreleasing AWSS3TransferUtilityUploadProgressBlock *uploadProgressBlockReference, __autoreleasing AWSS3TransferUtilityUploadCompletionHandlerBlock *completionHandlerReference) {
       NSLog(@"%lu", (unsigned long)uploadTask.taskIdentifier);
 
-      *uploadProgressBlockReference = uploadProgress;
-      *completionHandlerReference = completionUploadHandler;
+      *uploadProgressBlockReference = self.uploadProgress;
+      *completionHandlerReference = self.completionUploadHandler;
     }
     downloadTask:^(AWSS3TransferUtilityDownloadTask *downloadTask, __autoreleasing AWSS3TransferUtilityDownloadProgressBlock *downloadProgressBlockReference, __autoreleasing AWSS3TransferUtilityDownloadCompletionHandlerBlock *completionHandlerReference) {
       NSLog(@"%lu", (unsigned long)downloadTask.taskIdentifier);
 
-      *downloadProgressBlockReference = downloadProgress;
-      *completionHandlerReference = completionDownloadHandler;
+      *downloadProgressBlockReference = self.downloadProgress;
+      *completionHandlerReference = self.completionDownloadHandler;
     }];
 }
 
@@ -199,25 +209,7 @@ RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlo
   if (contentMD5) {
     expression.contentMD5 = contentMD5;
   }
-  expression.uploadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-      [self sendEvent:task
-                 type:@"upload"
-                state:@"in_progress"
-                bytes:totalBytesSent
-           totalBytes:totalBytesExpectedToSend
-                error:nil];
-  };
-  
-  AWSS3TransferUtilityUploadCompletionHandlerBlock completionHandler = ^(AWSS3TransferUtilityUploadTask *task, NSError *error) {
-    NSString *state;
-    if (error) state = @"failed"; else state = @"completed";
-    [self sendEvent:task
-               type:@"upload"
-              state:state
-              bytes:0
-         totalBytes:0
-              error:error];
-  };
+  expression.uploadProgress = self.uploadProgress;
 
   AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility S3TransferUtilityForKey:@"RNS3TransferUtility"];
   [[transferUtility uploadFile:fileURL
@@ -225,7 +217,7 @@ RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlo
                            key:[options objectForKey:@"key"]
                    contentType:[meta objectForKey:@"contentType"]
                     expression:expression
-              completionHander:completionHandler] continueWithBlock:^id(AWSTask *task) {
+              completionHander:self.completionUploadHandler] continueWithBlock:^id(AWSTask *task) {
     if (task.error) {
       NSLog(@"Error: %@", task.error);
       reject([NSString stringWithFormat: @"%lu", (long)task.error.code], task.error.localizedDescription, task.error);
@@ -248,32 +240,14 @@ RCT_EXPORT_METHOD(download: (NSDictionary *)options resolver:(RCTPromiseResolveB
   NSURL *fileURL = [NSURL fileURLWithPath:[options objectForKey:@"file"]];
 
   AWSS3TransferUtilityDownloadExpression *expression = [AWSS3TransferUtilityDownloadExpression new];
-  expression.downloadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
-    [self sendEvent:task
-               type:@"download"
-              state:@"in_progress"
-              bytes:totalBytesWritten
-         totalBytes:totalBytesExpectedToWrite
-              error:nil];
-  };
-
-  AWSS3TransferUtilityDownloadCompletionHandlerBlock completionHandler = ^(AWSS3TransferUtilityDownloadTask *task, NSURL *location, NSData *data, NSError *error) {
-    NSString *state;
-    if (error) state = @"failed"; else state = @"completed";
-    [self sendEvent:task
-               type:@"download"
-              state:state
-              bytes:0
-         totalBytes:0
-              error:error];
-  };
+  expression.downloadProgress = self.downloadProgress;
 
   AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility S3TransferUtilityForKey:@"RNS3TransferUtility"];
   [[transferUtility downloadToURL:fileURL
                            bucket:[options objectForKey:@"bucket"]
                               key:[options objectForKey:@"key"]
                        expression:expression
-                 completionHander:completionHandler] continueWithBlock:^id(AWSTask *task) {
+                 completionHander:self.completionDownloadHandler] continueWithBlock:^id(AWSTask *task) {
     if (task.error) {
       NSLog(@"Error: %@", task.error);
       reject([NSString stringWithFormat: @"%lu", (long)task.error.code], task.error.localizedDescription, task.error);
