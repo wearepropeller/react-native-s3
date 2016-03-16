@@ -45,7 +45,7 @@ async function setTaskExtra(task, values, isNew) {
 		taskExtras[id] = values;
 	} else {
 		if (taskExtras[id].bytes && !values.bytes) {
-			taskExtras[id] = { ...taskExtras[id], state: values.bytes };
+			taskExtras[id] = { ...taskExtras[id], state: values.state };
 		} else {
 			taskExtras[id] = { ...taskExtras[id], ...values };
 		}
