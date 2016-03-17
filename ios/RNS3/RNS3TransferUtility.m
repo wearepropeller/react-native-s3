@@ -187,13 +187,11 @@ RCT_EXPORT_METHOD(initialize) {
   AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility S3TransferUtilityForKey:@"RNS3TransferUtility"];
   [transferUtility
     enumerateToAssignBlocksForUploadTask:^(AWSS3TransferUtilityUploadTask *uploadTask, __autoreleasing AWSS3TransferUtilityUploadProgressBlock *uploadProgressBlockReference, __autoreleasing AWSS3TransferUtilityUploadCompletionHandlerBlock *completionHandlerReference) {
-      NSLog(@"%lu", (unsigned long)uploadTask.taskIdentifier);
 
       *uploadProgressBlockReference = self.uploadProgress;
       *completionHandlerReference = self.completionUploadHandler;
     }
     downloadTask:^(AWSS3TransferUtilityDownloadTask *downloadTask, __autoreleasing AWSS3TransferUtilityDownloadProgressBlock *downloadProgressBlockReference, __autoreleasing AWSS3TransferUtilityDownloadCompletionHandlerBlock *completionHandlerReference) {
-      NSLog(@"%lu", (unsigned long)downloadTask.taskIdentifier);
 
       *downloadProgressBlockReference = self.downloadProgress;
       *completionHandlerReference = self.completionDownloadHandler;
@@ -219,7 +217,6 @@ RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlo
                     expression:expression
               completionHander:self.completionUploadHandler] continueWithBlock:^id(AWSTask *task) {
     if (task.error) {
-      NSLog(@"Error: %@", task.error);
       reject([NSString stringWithFormat: @"%lu", (long)task.error.code], task.error.localizedDescription, task.error);
     } else if (task.exception) {
       NSLog(@"Exception: %@", task.exception);
@@ -249,7 +246,6 @@ RCT_EXPORT_METHOD(download: (NSDictionary *)options resolver:(RCTPromiseResolveB
                        expression:expression
                  completionHander:self.completionDownloadHandler] continueWithBlock:^id(AWSTask *task) {
     if (task.error) {
-      NSLog(@"Error: %@", task.error);
       reject([NSString stringWithFormat: @"%lu", (long)task.error.code], task.error.localizedDescription, task.error);
     } else if (task.exception) {
       NSLog(@"Exception: %@", task.exception);
@@ -352,7 +348,6 @@ RCT_EXPORT_METHOD(cancel:(int64_t)taskIdentifier) {
 }
 
 RCT_EXPORT_METHOD(getTask:(int64_t)taskIdentifier resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  NSLog(@"%@", @"get task...");
   [self taskById:taskIdentifier completionHandler:^(NSDictionary *result) {
     if (result) {
       AWSS3TransferUtilityTask *task = [result objectForKey:@"task"];
