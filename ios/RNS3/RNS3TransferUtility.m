@@ -316,6 +316,7 @@ RCT_EXPORT_METHOD(cancel:(int64_t)taskIdentifier) {
 }
 
 - (void) taskById:(int64_t)taskIdentifier completionHandler:(void(^)(NSDictionary *))handler {
+  __block NSDictionary *result = [NSNull null];
   AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility S3TransferUtilityForKey:@"RNS3TransferUtility"];
   [[[transferUtility getUploadTasks] continueWithBlock:^id(AWSTask *task) {
     if (task.result) {
@@ -323,10 +324,10 @@ RCT_EXPORT_METHOD(cancel:(int64_t)taskIdentifier) {
       for (AWSS3TransferUtilityUploadTask *task in uploadTasks) {
 
         if ([task taskIdentifier] == taskIdentifier) {
-          handler(@{
+          result = @{
             @"type":@"upload",
             @"task":task
-          });
+          };
           return nil;
         }
       }
@@ -337,20 +338,21 @@ RCT_EXPORT_METHOD(cancel:(int64_t)taskIdentifier) {
       NSArray<AWSS3TransferUtilityDownloadTask*> *downloadTasks = task.result;
       for (AWSS3TransferUtilityDownloadTask *task in downloadTasks) {
         if ([task taskIdentifier] == taskIdentifier) {
-          handler(@{
+          result = @{
             @"type":@"download",
             @"task":task
-          });
+          };
           return nil;
         }
       }
     }
-    handler(nil);
+    handler(result);
     return nil;
   }];
 }
 
 RCT_EXPORT_METHOD(getTask:(int64_t)taskIdentifier resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  NSLog(@"%@", @"get task...");
   [self taskById:taskIdentifier completionHandler:^(NSDictionary *result) {
     if (result) {
       AWSS3TransferUtilityTask *task = [result objectForKey:@"task"];
@@ -360,7 +362,7 @@ RCT_EXPORT_METHOD(getTask:(int64_t)taskIdentifier resolver:(RCTPromiseResolveBlo
         //@"key":[task key],
       });
     } else {
-      resolve(nil);
+      resolve([NSNull null]);
     }
   }];
 }
