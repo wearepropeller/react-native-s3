@@ -252,9 +252,8 @@ Unsubscribe the task changes with the given id.
   // progress of task: bytes / totalBytes
   bytes: Number,
   totalBytes: Number,
-  // iOS only part, waiting https://github.com/aws/aws-sdk-android/pull/105
   bucket: String,
-  key: String,
+  key: String
 }
 ```
 
