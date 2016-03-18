@@ -12,7 +12,7 @@ const defaultCognitoOptions = {
 	cognito_region: "eu-west-1"
 };
 const storeKey = "@_RNS3_Tasks_Extra";
-let taskExtras;	// [id]: { state, bytes, totalBytes}
+let taskExtras;	// [id]: { bucket, key, state, bytes, totalBytes }
 const subscribeCallbacks = {};	// [id]: function
 
 NativeAppEventEmitter.addListener("@_RNS3_Events", async event => {
