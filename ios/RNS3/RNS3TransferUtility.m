@@ -68,7 +68,7 @@ static bool alreadyInitialize = false;
   return regionType;
 }
 
-- (void) setup: (NSDictionary *)options {
+- (bool) setup: (NSDictionary *)options {
   AWSRegionType region = [self regionTypeFromString:[options objectForKey:@"region"]];
   CredentialType type = [[options objectForKey:@"type"] integerValue];
   NSString *accessKey;
@@ -92,29 +92,30 @@ static bool alreadyInitialize = false;
       cognitoCredentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:[self regionTypeFromString:cognitoRegion] identityPoolId:identityPoolId];
       configuration = [[AWSServiceConfiguration alloc] initWithRegion:region
                                                   credentialsProvider:cognitoCredentialsProvider];
-    default:
       break;
+    default:
+      return false;
   }
   [AWSS3TransferUtility registerS3TransferUtilityWithConfiguration:configuration forKey:@"RNS3TransferUtility"];
+  return true;
 }
 
 RCT_EXPORT_MODULE();
 
-
-RCT_EXPORT_METHOD(setupWithNative) {
-  [self setup:nativeCredentialsOptions];
+RCT_EXPORT_METHOD(setupWithNative: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  resolve(@([self setup:nativeCredentialsOptions]));
 }
 
-RCT_EXPORT_METHOD(setupWithBasic: (NSDictionary *)options) {
+RCT_EXPORT_METHOD(setupWithBasic: (NSDictionary *)options resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSMutableDictionary * mOptions = [options mutableCopy];
   [mOptions setObject:[NSNumber numberWithInt:BASIC] forKey:@"type"];
-  [self setup:mOptions];
+  resolve(@([self setup:mOptions]));
 }
 
-RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options) {
+RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSMutableDictionary * mOptions = [options mutableCopy];
   [mOptions setObject:[NSNumber numberWithInt:COGNITO] forKey:@"type"];
-  [self setup:options];
+  resolve(@([self setup:options]));
 }
 
 - (void) sendEvent:(AWSS3TransferUtilityTask *)task type:(NSString *)type state:(NSString *)state bytes:(int64_t)bytes totalBytes:(int64_t)totalBytes error:(NSError *)error {
@@ -143,7 +144,7 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options) {
     }];
 }
 
-RCT_EXPORT_METHOD(initialize) {
+RCT_EXPORT_METHOD(initializeRNS3) {
   if (alreadyInitialize) return;
   alreadyInitialize = true;
   self.uploadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {

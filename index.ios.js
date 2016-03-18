@@ -56,30 +56,36 @@ async function setTaskExtra(task, values, isNew) {
 
 class TransferUtility {
 	async setupWithNative() {
-		RNS3TransferUtility.setupWithNative();
-		await getTaskExtras();
-		RNS3TransferUtility.initialize();
-		return true;
+		const result = await RNS3TransferUtility.setupWithNative();
+		if (result) {
+			await getTaskExtras();
+			RNS3TransferUtility.initializeRNS3();
+		}
+		return result;
 	}
 
 	async setupWithBasic(options = {}) {
 		if (!options.access_key || !options.secret_key) {
 			return false;
 		}
-		RNS3TransferUtility.setupWithBasic({ ...defaultOptions, ...options});
-		await getTaskExtras();
-		RNS3TransferUtility.initialize();
-		return true;
+		const result = await RNS3TransferUtility.setupWithBasic({ ...defaultOptions, ...options});
+		if (result) {
+			await getTaskExtras();
+			RNS3TransferUtility.initializeRNS3();
+		}
+		return result;
 	}
 
 	async setupWithCognito(options = {}) {
 		if (!options.identity_pool_id) {
 			return false;
 		}
-		RNS3TransferUtility.setupWithCognito({ ...defaultCognitoOptions, ...options});
-		await getTaskExtras();
-		RNS3TransferUtility.initialize();
-		return true;
+		const result = await RNS3TransferUtility.setupWithBasic({ ...defaultOptions, ...options });
+		if (result) {
+			await getTaskExtras();
+			RNS3TransferUtility.initializeRNS3();
+		}
+		return result;
 	}
 
 	async upload(options = {}) {
