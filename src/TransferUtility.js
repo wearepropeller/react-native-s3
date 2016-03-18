@@ -1,4 +1,4 @@
-import { NativeModules, DeviceEventEmitter } from "react-native";
+import { NativeModules, NativeAppEventEmitter, DeviceEventEmitter, Platform } from "react-native";
 import store from "react-native-simple-store";
 
 const { RNS3TransferUtility } = NativeModules;
@@ -12,16 +12,36 @@ const defaultCognitoOptions = {
 	cognito_region: "eu-west-1"
 };
 const storeKey = "@_RNS3_Tasks_Extra";
-let taskExtras;	// [id]: { bucket, key, bytes }
+/*
+ * taskExtra: 
+ *	 [id]:
+ *		 iOS: { bucket, key, state, bytes, totalBytes }
+ *		 Android: { bucket, key, bytes }
+ */
+let taskExtras;
 const subscribeCallbacks = {};	// [id]: function
 
-DeviceEventEmitter.addListener("@_RNS3_Events", async event => {
+let EventEmitter;
+if (Platform.OS === "ios") {
+	EventEmitter = NativeAppEventEmitter;
+} else if (Platform.OS === "android") {
+	EventEmitter = DeviceEventEmitter;
+}
+
+EventEmitter.addListener("@_RNS3_Events", async event => {
 	if (!taskExtras) await getTaskExtras();
 	const { task, error } = event;
-	const { bytes } = task;
-	const finalTask = await setTaskExtra(task, { bytes });
+
+	let finalTask = task;
+	if (Platform.OS === "ios") {
+		const { state, bytes, totalBytes } = task;
+		finalTask = await setTaskExtra(task, { state, bytes, totalBytes });
+	} else if (Platform.OS === "android") {
+		const { bytes } = task;
+		finalTask = await setTaskExtra(task, { bytes });
+	}
 	if (subscribeCallbacks[task.id]) {
-		subscribeCallbacks[task.id](error, task);
+		subscribeCallbacks[task.id](error, finalTask);
 	}
 });
 
@@ -44,15 +64,23 @@ async function setTaskExtra(task, values, isNew) {
 	if (!taskExtras[id] || isNew) {
 		taskExtras[id] = values;
 	} else {
-		if (values.bytes) {
-			taskExtras[id] = { ...taskExtras[id], ...values };
+		if (Platform.OS === "ios") {
+			if (taskExtras[id].bytes && !values.bytes) {
+				taskExtras[id] = { ...taskExtras[id], state: values.state };
+			} else {
+				taskExtras[id] = { ...taskExtras[id], ...values };
+			}
+		} else if (Platform.OS === "android") {
+			if (values.bytes) {
+				taskExtras[id] = { ...taskExtras[id], ...values };
+			}
 		}
 	}
 	await saveTaskExtras();
 	return putExtra(task);
 }
 
-class TransferUtility {
+export default class TransferUtility {
 	async setupWithNative() {
 		const result = await RNS3TransferUtility.setupWithNative();
 		if (result) {
@@ -66,10 +94,10 @@ class TransferUtility {
 		if (!options.access_key || !options.secret_key) {
 			return false;
 		}
-		if (!options.session_token) {
+		if (Platform.OS === "android" && !options.session_token) {
 			options.session_token = null;
 		}
-		const result = await RNS3TransferUtility.setupWithBasic({ ...defaultOptions, ...options });
+		const result = await RNS3TransferUtility.setupWithBasic({ ...defaultOptions, ...options});
 		if (result) {
 			await getTaskExtras();
 			RNS3TransferUtility.initializeRNS3();
@@ -81,10 +109,7 @@ class TransferUtility {
 		if (!options.identity_pool_id) {
 			return false;
 		}
-		if (!options.caching) {
-			options.caching = false;
-		}
-		const result = await RNS3TransferUtility.setupWithCognito({ ...defaultCognitoOptions, ...options });
+		const result = await RNS3TransferUtility.setupWithBasic({ ...defaultCognitoOptions, ...options });
 		if (result) {
 			await getTaskExtras();
 			RNS3TransferUtility.initializeRNS3();
@@ -97,20 +122,28 @@ class TransferUtility {
 			options.meta = {};
 		}
 		const task = await RNS3TransferUtility.upload(options);
-		const finalTask = await setTaskExtra(task, {
+		const extra = {
 			bucket: options.bucket,
 			key: options.key
-		}, true);
-		return task;
+		};
+		if (Platform.OS === "ios") {
+			extra.state = task.state;
+		}
+		const finalTask = await setTaskExtra(task, extra, true);
+		return finalTask;
 	}
 
 	async download(options = {}) {
 		const task = await RNS3TransferUtility.download(options);
-		const finalTask = await setTaskExtra(task, {
+		const extra = {
 			bucket: options.bucket,
 			key: options.key
-		}, true);
-		return task;
+		};
+		if (Platform.OS === "ios") {
+			extra.state = task.state;
+		}
+		const finalTask = await setTaskExtra(task, extra, true);
+		return finalTask;
 	}
 
 	pause(id) {
@@ -125,7 +158,11 @@ class TransferUtility {
 		RNS3TransferUtility.cancel(id);
 	}
 
+	// Android only
 	async deleteRecord(id) {
+		if (Platform.OS === "ios") {
+			throw new Error("Not implemented");
+		}
 		return RNS3TransferUtility.deleteRecord(id);
 	}
 
@@ -162,5 +199,3 @@ class TransferUtility {
 		delete subscribeCallbacks[id];
 	}
 }
-
-export const transferUtility = new TransferUtility();

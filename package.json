@@ -2,8 +2,9 @@
   "name": "react-native-s3",
   "version": "0.0.4",
   "description": "A React Native wrapper for AWS S3 SDK",
+  "main": "./src/index.js",
   "scripts": {
-    "lint": "eslint *.js example/*.js",
+    "lint": "eslint src/*.js example/*.js",
     "preinstall": "./scripts/download-ios.sh 2.3.5"
   },
   "repository": {
