@@ -9,6 +9,10 @@ A React Native wrapper for AWS [iOS](https://github.com/aws/aws-sdk-ios)/[Androi
 
 We currently implements `TransferUtility`, see [iOS](http://docs.aws.amazon.com/mobile/sdkforios/developerguide/s3transferutility.html)/[Android](http://docs.aws.amazon.com/mobile/sdkforandroid/developerguide/getting-started-store-retrieve-s3-transferutility.html) docs for more information.
 
+## Known issues
+
+* Currently reload js will lead TransferUtility not work. ([#9](https://github.com/mybigday/react-native-s3/issues/9))
+
 ## Installation
 
 ```bash
