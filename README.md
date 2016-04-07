@@ -143,24 +143,6 @@ See [API.md](API.md) for more information.
 
 - [react-native-aws3](https://github.com/benjreinhart/react-native-aws3) - if you don't need the native library provided background upload/download task features.
 
-## Roadmap
-
-#### iOS
-
-- [x] TransferUtility
-- [ ] TransferManager
-- [ ] Bucket Control
-- CredentialsProvider
-  - [ ] STS
-
-#### Android 
-
-- [x] TransferUtility
-- [ ] TransferManager (Deprecated)
-- [ ] Bucket Control
-- CredentialsProvider
-  - [ ] STS
-
 ## License
 
 [MIT](LICENSE.md)
