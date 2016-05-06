@@ -23,13 +23,15 @@ $ npm install react-native-s3 --save
 
 #### iOS
 
+__*NOTE*__ Only supported iOS ^8.0.
+
 In XCode, in the project navigator:
 
 * Right click `Libraries` ➜ `Add Files to [your project's name]`, Add `node_modules/react-native-s3/ios/RNS3.xcodeproj`.
 * Add `libRNS3.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 * Add `$(SRCROOT)/../node_modules/react-native-s3/ios` to `Header Search Paths`, and mark it as `recursive`.
 * Add `$(SRCROOT)/../node_modules/react-native-s3/ios/Frameworks` to your project's `Build Settings` ➜ `Framework Search Paths`
-* Add `node_modules/react-native-s3/ios/Frameworks/*.framework`, `libsqlite3.tbd`, `libz.tbd` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+* Add `node_modules/react-native-s3/ios/Frameworks/*.framework` to your project's `General` ➜ `Embedded Binaries`
 * Edit `AppDelegate.m` of your project
 
 ```objective-c

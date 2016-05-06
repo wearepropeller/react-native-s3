@@ -16,6 +16,6 @@ curl -sS http://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-$VERSION.zip > tem
 unzip -o temp.zip -d temp
 mv temp/frameworks/AWSCore.framework ./AWSCore.framework
 mv temp/frameworks/AWSS3.framework ./AWSS3.framework
-mv temp/frameworks/extras/AWSCognito.framework ./AWSCognito.framework
+mv temp/frameworks/AWSCognito.framework ./AWSCognito.framework
 rm -r temp
 rm temp.zip

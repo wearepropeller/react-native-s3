@@ -94,8 +94,8 @@ export default class TransferUtility {
 		if (!options.access_key || !options.secret_key) {
 			return false;
 		}
-		if (Platform.OS === "android" && !options.session_token) {
-			options.session_token = null;
+		if (Platform.OS === "android") {
+			options.session_token = options.session_token || null;
 		}
 		const result = await RNS3TransferUtility.setupWithBasic({ ...defaultOptions, ...options});
 		if (result) {
@@ -118,9 +118,7 @@ export default class TransferUtility {
 	}
 
 	async upload(options = {}) {
-		if (!options.meta) {
-			options.meta = {};
-		}
+		options.meta = options.meta || {};
 		const task = await RNS3TransferUtility.upload(options);
 		const extra = {
 			bucket: options.bucket,

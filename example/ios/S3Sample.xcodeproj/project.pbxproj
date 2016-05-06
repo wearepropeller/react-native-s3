@@ -22,11 +22,12 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		4683DABD079045E5902E6743 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5B1DB818A4418BB814F7D3 /* libRNFS.a */; };
-		7F2738751C86CCC50094B90C /* AWSCognito.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2738721C86CCC50094B90C /* AWSCognito.framework */; };
-		7F2738761C86CCC50094B90C /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2738731C86CCC50094B90C /* AWSCore.framework */; };
-		7F2738771C86CCC50094B90C /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2738741C86CCC50094B90C /* AWSS3.framework */; };
-		7F2738791C86CCDE0094B90C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2738781C86CCDE0094B90C /* libsqlite3.tbd */; };
-		7F27387B1C86CCF70094B90C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F27387A1C86CCF70094B90C /* libz.tbd */; };
+		7FBB85E41CDC34BA0022BA93 /* AWSCognito.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FBB85E11CDC34BA0022BA93 /* AWSCognito.framework */; };
+		7FBB85E51CDC34BA0022BA93 /* AWSCognito.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7FBB85E11CDC34BA0022BA93 /* AWSCognito.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7FBB85E61CDC34BA0022BA93 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FBB85E21CDC34BA0022BA93 /* AWSCore.framework */; };
+		7FBB85E71CDC34BA0022BA93 /* AWSCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7FBB85E21CDC34BA0022BA93 /* AWSCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7FBB85E81CDC34BA0022BA93 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FBB85E31CDC34BA0022BA93 /* AWSS3.framework */; };
+		7FBB85E91CDC34BA0022BA93 /* AWSS3.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7FBB85E31CDC34BA0022BA93 /* AWSS3.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		A55D8346B25747E5A0EF1D92 /* libRNS3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9025A82D21304B49997112AF /* libRNS3.a */; };
 /* End PBXBuildFile section */
@@ -125,6 +126,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		7FBB85EA1CDC34BA0022BA93 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7FBB85E51CDC34BA0022BA93 /* AWSCognito.framework in Embed Frameworks */,
+				7FBB85E71CDC34BA0022BA93 /* AWSCore.framework in Embed Frameworks */,
+				7FBB85E91CDC34BA0022BA93 /* AWSS3.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
 		00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
@@ -147,11 +164,9 @@
 		2E5B1DB818A4418BB814F7D3 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		7519BF6223AF43CBB04837FC /* RNS3.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNS3.xcodeproj; path = "../node_modules/react-native-s3/ios/RNS3.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
-		7F2738721C86CCC50094B90C /* AWSCognito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCognito.framework; path = "../node_modules/react-native-s3/ios/Frameworks/AWSCognito.framework"; sourceTree = "<group>"; };
-		7F2738731C86CCC50094B90C /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCore.framework; path = "../node_modules/react-native-s3/ios/Frameworks/AWSCore.framework"; sourceTree = "<group>"; };
-		7F2738741C86CCC50094B90C /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "../node_modules/react-native-s3/ios/Frameworks/AWSS3.framework"; sourceTree = "<group>"; };
-		7F2738781C86CCDE0094B90C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		7F27387A1C86CCF70094B90C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		7FBB85E11CDC34BA0022BA93 /* AWSCognito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSCognito.framework; sourceTree = "<group>"; };
+		7FBB85E21CDC34BA0022BA93 /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSCore.framework; sourceTree = "<group>"; };
+		7FBB85E31CDC34BA0022BA93 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSS3.framework; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		9025A82D21304B49997112AF /* libRNS3.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNS3.a; sourceTree = "<group>"; };
 		D3B0AF12B5434F9186DC9A79 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
@@ -169,12 +184,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F27387B1C86CCF70094B90C /* libz.tbd in Frameworks */,
-				7F2738791C86CCDE0094B90C /* libsqlite3.tbd in Frameworks */,
-				7F2738751C86CCC50094B90C /* AWSCognito.framework in Frameworks */,
-				7F2738761C86CCC50094B90C /* AWSCore.framework in Frameworks */,
-				7F2738771C86CCC50094B90C /* AWSS3.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				7FBB85E61CDC34BA0022BA93 /* AWSCore.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -185,7 +196,9 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				A55D8346B25747E5A0EF1D92 /* libRNS3.a in Frameworks */,
+				7FBB85E41CDC34BA0022BA93 /* AWSCognito.framework in Frameworks */,
 				4683DABD079045E5902E6743 /* libRNFS.a in Frameworks */,
+				7FBB85E81CDC34BA0022BA93 /* AWSS3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,11 +353,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				7F27387A1C86CCF70094B90C /* libz.tbd */,
-				7F2738781C86CCDE0094B90C /* libsqlite3.tbd */,
-				7F2738721C86CCC50094B90C /* AWSCognito.framework */,
-				7F2738731C86CCC50094B90C /* AWSCore.framework */,
-				7F2738741C86CCC50094B90C /* AWSS3.framework */,
+				7FBB85E11CDC34BA0022BA93 /* AWSCognito.framework */,
+				7FBB85E21CDC34BA0022BA93 /* AWSCore.framework */,
+				7FBB85E31CDC34BA0022BA93 /* AWSS3.framework */,
 				13B07FAE1A68108700A75B9A /* S3Sample */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* S3SampleTests */,
@@ -392,6 +403,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				7FBB85EA1CDC34BA0022BA93 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -702,7 +714,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEAD_CODE_STRIPPING = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-s3/ios/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../node_modules/react-native-s3/ios/Frameworks",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -711,6 +726,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = S3Sample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = S3Sample;
@@ -721,7 +737,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-s3/ios/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../node_modules/react-native-s3/ios/Frameworks",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -730,6 +749,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = S3Sample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = S3Sample;

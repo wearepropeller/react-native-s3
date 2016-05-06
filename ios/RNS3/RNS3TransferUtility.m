@@ -6,10 +6,10 @@ static bool alreadyInitialize = false;
 @interface RNS3TransferUtility ()
 
 @property (copy, nonatomic) AWSS3TransferUtilityUploadCompletionHandlerBlock completionUploadHandler;
-@property (copy, nonatomic) AWSS3TransferUtilityUploadProgressBlock uploadProgress;
+@property (copy, nonatomic) AWSS3TransferUtilityProgressBlock uploadProgress;
 
 @property (copy, nonatomic) AWSS3TransferUtilityDownloadCompletionHandlerBlock completionDownloadHandler;
-@property (copy, nonatomic) AWSS3TransferUtilityDownloadProgressBlock downloadProgress;
+@property (copy, nonatomic) AWSS3TransferUtilityProgressBlock downloadProgress;
 
 @end
 
@@ -82,7 +82,8 @@ static bool alreadyInitialize = false;
     case BASIC:
       accessKey = [options objectForKey:@"access_key"];
       secretKey = [options objectForKey:@"secret_key"];
-      basicCredentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:accessKey secretKey:secretKey];
+      
+      basicCredentialsProvider = [[AWSStaticCredentialsProvider new] initWithAccessKey:accessKey secretKey:secretKey];
       configuration = [[AWSServiceConfiguration alloc] initWithRegion:region
                                                   credentialsProvider:basicCredentialsProvider];
       break;
@@ -147,12 +148,12 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options resolver:(RCTPromise
 RCT_EXPORT_METHOD(initializeRNS3) {
   if (alreadyInitialize) return;
   alreadyInitialize = true;
-  self.uploadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+  self.uploadProgress = ^(AWSS3TransferUtilityTask *task, NSProgress *progress) {
     [self sendEvent:task
                type:@"upload"
               state:@"in_progress"
-              bytes:totalBytesSent
-         totalBytes:totalBytesExpectedToSend
+              bytes:progress.completedUnitCount
+         totalBytes:progress.totalUnitCount
               error:nil];
   };
   self.completionUploadHandler = ^(AWSS3TransferUtilityUploadTask *task, NSError *error) {
@@ -166,12 +167,12 @@ RCT_EXPORT_METHOD(initializeRNS3) {
               error:error];
   };
   
-  self.downloadProgress = ^(AWSS3TransferUtilityTask *task, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+  self.downloadProgress = ^(AWSS3TransferUtilityTask *task, NSProgress *progress) {
     [self sendEvent:task
                type:@"download"
               state:@"in_progress"
-              bytes:totalBytesWritten
-         totalBytes:totalBytesExpectedToWrite
+              bytes:progress.completedUnitCount
+         totalBytes:progress.totalUnitCount
               error:nil];
   };
   self.completionDownloadHandler = ^(AWSS3TransferUtilityDownloadTask *task, NSURL *location, NSData *data, NSError *error) {
@@ -187,13 +188,18 @@ RCT_EXPORT_METHOD(initializeRNS3) {
   
   AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility S3TransferUtilityForKey:@"RNS3TransferUtility"];
   [transferUtility
-    enumerateToAssignBlocksForUploadTask:^(AWSS3TransferUtilityUploadTask *uploadTask, __autoreleasing AWSS3TransferUtilityUploadProgressBlock *uploadProgressBlockReference, __autoreleasing AWSS3TransferUtilityUploadCompletionHandlerBlock *completionHandlerReference) {
-
+    enumerateToAssignBlocksForUploadTask:^(AWSS3TransferUtilityUploadTask * _Nonnull uploadTask,
+      AWSS3TransferUtilityProgressBlock  _Nullable __autoreleasing * _Nullable uploadProgressBlockReference,
+      AWSS3TransferUtilityUploadCompletionHandlerBlock  _Nullable __autoreleasing * _Nullable completionHandlerReference
+    ) {
       *uploadProgressBlockReference = self.uploadProgress;
       *completionHandlerReference = self.completionUploadHandler;
     }
-    downloadTask:^(AWSS3TransferUtilityDownloadTask *downloadTask, __autoreleasing AWSS3TransferUtilityDownloadProgressBlock *downloadProgressBlockReference, __autoreleasing AWSS3TransferUtilityDownloadCompletionHandlerBlock *completionHandlerReference) {
-
+   downloadTask:^(AWSS3TransferUtilityDownloadTask * _Nonnull downloadTask,
+      AWSS3TransferUtilityProgressBlock  _Nullable __autoreleasing * _Nullable downloadProgressBlockReference,
+      AWSS3TransferUtilityDownloadCompletionHandlerBlock  _Nullable __autoreleasing * _Nullable completionHandlerReference
+    ) {
+     
       *downloadProgressBlockReference = self.downloadProgress;
       *completionHandlerReference = self.completionDownloadHandler;
     }];
@@ -208,7 +214,7 @@ RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlo
   if (contentMD5) {
     expression.contentMD5 = contentMD5;
   }
-  expression.uploadProgress = self.uploadProgress;
+  expression.progressBlock = self.uploadProgress;
 
   AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility S3TransferUtilityForKey:@"RNS3TransferUtility"];
   [[transferUtility uploadFile:fileURL
@@ -238,7 +244,7 @@ RCT_EXPORT_METHOD(download: (NSDictionary *)options resolver:(RCTPromiseResolveB
   NSURL *fileURL = [NSURL fileURLWithPath:[options objectForKey:@"file"]];
 
   AWSS3TransferUtilityDownloadExpression *expression = [AWSS3TransferUtilityDownloadExpression new];
-  expression.downloadProgress = self.downloadProgress;
+  expression.progressBlock = self.downloadProgress;
 
   AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility S3TransferUtilityForKey:@"RNS3TransferUtility"];
   [[transferUtility downloadToURL:fileURL
