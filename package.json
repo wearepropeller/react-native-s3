@@ -24,7 +24,7 @@
     "extends": "mybigday"
   },
   "dependencies": {
-    "react-native-simple-store": "^0.1.0"
+    "react-native-simple-store": "^1.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^5.0.0",
