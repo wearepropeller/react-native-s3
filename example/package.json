@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "react-native": "^0.21.0",
-    "react-native-fs": "^1.2.0",
+    "react-native-fs": "^1.4.0",
     "react-native-s3": "*"
   }
 }

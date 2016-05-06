@@ -10,12 +10,16 @@ import React, {
 import { transferUtility } from "react-native-s3";
 import fs from "react-native-fs";
 
+console.log(fs.DocumentDirectoryPath);
+
 const bucketName = "";
-const uploadFileKey = "";
+const uploadFileKey = "test.mp4";
 const contentType = "image/jpeg";
-const uploadFilePath = fs.DocumentDirectoryPath + "/";
-const downloadFileKey = "";
-const downloadFilePath = fs.DocumentDirectoryPath + "/";
+const uploadFilePath = fs.DocumentDirectoryPath + "/test.mp4";
+const downloadFileKey = "test.mp4";
+const downloadFilePath = fs.DocumentDirectoryPath + "/test_download.mp4";
+
+const sampleVideoURL = "http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4";
 
 const styles = StyleSheet.create({
 	container: {
@@ -55,6 +59,9 @@ class S3Sample extends Component {
 
 	async componentDidMount() {
 		if (!this.state.initLoaded) {
+			if (!await fs.exists(uploadFilePath)) {
+				await fs.downloadFile(sampleVideoURL, uploadFilePath);
+			}
 			await transferUtility.setupWithNative();
 
 			const uploadTasks = await transferUtility.getTasks("upload", true);

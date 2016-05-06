@@ -149,6 +149,7 @@ RCT_EXPORT_METHOD(initializeRNS3) {
   if (alreadyInitialize) return;
   alreadyInitialize = true;
   self.uploadProgress = ^(AWSS3TransferUtilityTask *task, NSProgress *progress) {
+    NSLog(@"update");
     [self sendEvent:task
                type:@"upload"
               state:@"in_progress"
@@ -195,7 +196,7 @@ RCT_EXPORT_METHOD(initializeRNS3) {
       *uploadProgressBlockReference = self.uploadProgress;
       *completionHandlerReference = self.completionUploadHandler;
     }
-   downloadTask:^(AWSS3TransferUtilityDownloadTask * _Nonnull downloadTask,
+    downloadTask:^(AWSS3TransferUtilityDownloadTask * _Nonnull downloadTask,
       AWSS3TransferUtilityProgressBlock  _Nullable __autoreleasing * _Nullable downloadProgressBlockReference,
       AWSS3TransferUtilityDownloadCompletionHandlerBlock  _Nullable __autoreleasing * _Nullable completionHandlerReference
     ) {
