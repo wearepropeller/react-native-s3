@@ -7,7 +7,9 @@
 
 A React Native wrapper for AWS [iOS](https://github.com/aws/aws-sdk-ios)/[Android](https://github.com/aws/aws-sdk-android) S3 SDK.
 
-We currently implements `TransferUtility`, see [iOS](http://docs.aws.amazon.com/mobile/sdkforios/developerguide/s3transferutility.html)/[Android](http://docs.aws.amazon.com/mobile/sdkforandroid/developerguide/getting-started-store-retrieve-s3-transferutility.html) docs for more information.
+We currently implements `TransferUtility`, it allow you to upload / download tasks in the background, very suitable for transferring large files, you can freely subscribe / unsubscribe, pause / resume / cancel the task.
+
+See [iOS](http://docs.aws.amazon.com/mobile/sdkforios/developerguide/s3transferutility.html)/[Android](http://docs.aws.amazon.com/mobile/sdkforandroid/developerguide/getting-started-store-retrieve-s3-transferutility.html) docs for more information.
 
 ## Known issues
 
