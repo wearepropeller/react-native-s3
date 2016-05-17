@@ -90,7 +90,7 @@ dependencies {
 ```java
 ......
 
-import com.mybigday.rn.*;   // import
+import com.mybigday.rns3.*;   // import
 
 public class MainActivity extends ReactActivity {
 

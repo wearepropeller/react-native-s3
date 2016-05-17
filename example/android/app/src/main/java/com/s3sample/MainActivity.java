@@ -2,7 +2,7 @@ package com.s3sample;
 
 import com.facebook.react.ReactActivity;
 import com.rnfs.RNFSPackage;
-import com.mybigday.rn.RNS3Package;
+import com.mybigday.rns3.RNS3Package;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.os.Bundle;
-import com.mybigday.rn.RNS3TransferUtility;
+import com.mybigday.rns3.RNS3TransferUtility;
 
 public class MainActivity extends ReactActivity {
 

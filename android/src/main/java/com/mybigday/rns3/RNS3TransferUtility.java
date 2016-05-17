@@ -1,4 +1,4 @@
-package com.mybigday.rn;
+package com.mybigday.rns3;
 
 import java.io.File;
 import java.util.Iterator;
