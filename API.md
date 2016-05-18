@@ -17,7 +17,7 @@ Return: Promise - will resolve arguments:
   * `region` String - a S3 Region (default: eu-west-1)
   * `access_key` String - the AWS access key ID
   * `secret_key` String - the AWS secret access key
-  * `session_token` String - (optional) __(Android)__
+  * `session_token` String - (optional)
 
 Return: Promise - will resolve arguments:
 * Boolean - `true` or `false` depending on the setup successful.

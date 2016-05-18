@@ -11,6 +11,7 @@
 		7F27385A1C86C7650094B90C /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2738571C86C7650094B90C /* AWSCore.framework */; };
 		7F27385B1C86C7650094B90C /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2738581C86C7650094B90C /* AWSS3.framework */; };
 		7FE73D9A1C83BE1000A267C9 /* RNS3TransferUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE73D991C83BE1000A267C9 /* RNS3TransferUtility.m */; };
+		D2689E6B1CEC7FDB001CA85B /* RNS3STSCredentialsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2689E6A1CEC7FDB001CA85B /* RNS3STSCredentialsProvider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,8 @@
 		7F2738581C86C7650094B90C /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSS3.framework; sourceTree = "<group>"; };
 		7FE73D981C83BE1000A267C9 /* RNS3TransferUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNS3TransferUtility.h; sourceTree = "<group>"; };
 		7FE73D991C83BE1000A267C9 /* RNS3TransferUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNS3TransferUtility.m; sourceTree = "<group>"; };
+		D2689E691CEC7FDB001CA85B /* RNS3STSCredentialsProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNS3STSCredentialsProvider.h; sourceTree = "<group>"; };
+		D2689E6A1CEC7FDB001CA85B /* RNS3STSCredentialsProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNS3STSCredentialsProvider.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +83,8 @@
 			children = (
 				7FE73D981C83BE1000A267C9 /* RNS3TransferUtility.h */,
 				7FE73D991C83BE1000A267C9 /* RNS3TransferUtility.m */,
+				D2689E691CEC7FDB001CA85B /* RNS3STSCredentialsProvider.h */,
+				D2689E6A1CEC7FDB001CA85B /* RNS3STSCredentialsProvider.m */,
 			);
 			path = RNS3;
 			sourceTree = "<group>";
@@ -111,7 +116,7 @@
 		58B511D31A9E6C8500147676 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					58B511DA1A9E6C8500147676 = {
@@ -157,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2689E6B1CEC7FDB001CA85B /* RNS3STSCredentialsProvider.m in Sources */,
 				7FE73D9A1C83BE1000A267C9 /* RNS3TransferUtility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +189,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
