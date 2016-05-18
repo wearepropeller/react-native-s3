@@ -1,4 +1,5 @@
 #import "RNS3TransferUtility.h"
+#import "RNS3STSCredentialsProvider.h"
 
 static NSMutableDictionary *nativeCredentialsOptions;
 static bool alreadyInitialize = false;
@@ -68,37 +69,47 @@ static bool alreadyInitialize = false;
   return regionType;
 }
 
-- (bool) setup: (NSDictionary *)options {
-  AWSRegionType region = [self regionTypeFromString:[options objectForKey:@"region"]];
-  CredentialType type = [[options objectForKey:@"type"] integerValue];
-  NSString *accessKey;
-  NSString *secretKey;
-  AWSStaticCredentialsProvider *basicCredentialsProvider;
-  NSString *identityPoolId;
-  NSString *cognitoRegion;
-  AWSCognitoCredentialsProvider *cognitoCredentialsProvider;
-  AWSServiceConfiguration *configuration;
-  switch (type) {
-    case BASIC:
-      accessKey = [options objectForKey:@"access_key"];
-      secretKey = [options objectForKey:@"secret_key"];
-      
-      basicCredentialsProvider = [[AWSStaticCredentialsProvider new] initWithAccessKey:accessKey secretKey:secretKey];
-      configuration = [[AWSServiceConfiguration alloc] initWithRegion:region
-                                                  credentialsProvider:basicCredentialsProvider];
-      break;
-    case COGNITO:
-      cognitoRegion = [options objectForKey:@"cognito_region"];
-      identityPoolId = [options objectForKey:@"identity_pool_id"];
-      cognitoCredentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:[self regionTypeFromString:cognitoRegion] identityPoolId:identityPoolId];
-      configuration = [[AWSServiceConfiguration alloc] initWithRegion:region
-                                                  credentialsProvider:cognitoCredentialsProvider];
-      break;
-    default:
-      return false;
-  }
-  [AWSS3TransferUtility registerS3TransferUtilityWithConfiguration:configuration forKey:@"RNS3TransferUtility"];
-  return true;
+- (BOOL)setup:(NSDictionary *)options {
+    CredentialType type = [options[@"type"] integerValue];
+    id<AWSCredentialsProvider> credentialsProvider;
+    
+    switch (type) {
+        case BASIC: {
+            NSString *accessKey = options[@"access_key"];
+            NSString *secretKey = options[@"secret_key"];
+            NSString *sessionKey = options[@"session_token"];
+            
+            if (sessionKey) {
+                credentialsProvider = [[RNS3STSCredentialsProvider alloc] initWithAccessKey:accessKey
+                                                                              secretKey:secretKey
+                                                                             sessionKey:sessionKey];
+            } else {
+                credentialsProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:accessKey
+                                                                                    secretKey:secretKey];
+            }
+            
+            break;
+        }
+        case COGNITO: {
+            AWSRegionType region = [self regionTypeFromString:options[@"cognito_region"]];
+            NSString *identityPoolId = options[@"identity_pool_id"];
+            
+            credentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:region
+                                                                             identityPoolId:identityPoolId];
+            
+            break;
+        }
+        default:
+            return NO;
+    }
+    
+    AWSRegionType region = [self regionTypeFromString:options[@"region"]];
+    AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:region
+                                                                         credentialsProvider:credentialsProvider];
+    
+    [AWSS3TransferUtility registerS3TransferUtilityWithConfiguration:configuration
+                                                              forKey:@"RNS3TransferUtility"];
+    return YES;
 }
 
 RCT_EXPORT_MODULE();
