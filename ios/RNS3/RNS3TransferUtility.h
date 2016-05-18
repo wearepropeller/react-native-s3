@@ -3,9 +3,10 @@
 #import <AWSCore/AWSCore.h>
 #import <AWSS3/AWSS3.h>
 
-typedef enum {
-  BASIC, COGNITO
-} CredentialType;
+typedef NS_ENUM(NSInteger, CredentialType) {
+    BASIC,
+    COGNITO
+};
 
 @interface RNS3TransferUtility : NSObject <RCTBridgeModule>
 + (NSMutableDictionary*)nativeCredentialsOptions;
