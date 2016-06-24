@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "lint": "eslint src/*.js example/*.js",
-    "prepublish": "./scripts/download-ios.sh 2.4.1 && rm -rf ./ios/RNS3.xcodeproj/xcuserdata ./ios/RNS3.xcodeproj/project.xcworkspace"
+    "prepublish": "./scripts/download-ios.sh 2.4.4 && rm -rf ./ios/RNS3.xcodeproj/xcuserdata ./ios/RNS3.xcodeproj/project.xcworkspace"
   },
   "repository": {
     "type": "git",
