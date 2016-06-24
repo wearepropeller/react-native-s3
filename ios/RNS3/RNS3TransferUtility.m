@@ -136,7 +136,7 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options resolver:(RCTPromise
     errorObj = @{
       @"domain":[error domain],
       @"code": @([error code]),
-      @"userInfo": [error userInfo]
+      @"description": [error localizedDescription]
     };
   }
   
