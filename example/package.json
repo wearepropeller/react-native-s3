@@ -8,7 +8,8 @@
     "android": "node node_modules/react-native/local-cli/cli.js run-android"
   },
   "dependencies": {
-    "react-native": "^0.21.0",
+    "react": "^15.3.1",
+    "react-native": "^0.34.1",
     "react-native-fs": "^1.4.0",
     "react-native-s3": "*"
   }
