@@ -11,11 +11,17 @@
 
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
+#import "RNS3TransferUtility.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [[RNS3TransferUtility nativeCredentialsOptions] setObject:@"eu-west-1" forKey:@"region"];
+  [[RNS3TransferUtility nativeCredentialsOptions] setObject:[NSNumber numberWithInt:[RNS3TransferUtility credentialType:@"BASIC"]] forKey:@"type"];
+  [[RNS3TransferUtility nativeCredentialsOptions] setObject:@"your_access_key_here" forKey:@"access_key"];
+  [[RNS3TransferUtility nativeCredentialsOptions] setObject:@"your_secret_key_here" forKey:@"secret_key"];
+
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
@@ -32,6 +38,12 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
+}
+
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
+  [RNS3TransferUtility interceptApplication:application
+        handleEventsForBackgroundURLSession:identifier
+                          completionHandler:completionHandler];
 }
 
 @end
