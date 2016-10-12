@@ -44,6 +44,7 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
   }
 
   private static boolean alreadyInitialize = false;
+  private static boolean enabledProgress = false;
   private Context context;
   private AmazonS3 s3;
   private TransferUtility transferUtility;
@@ -100,6 +101,9 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
       @Override
       public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
         TransferObserver task = transferUtility.getTransferById(id);
+        if (enabledProgress && task.getState().toString().equals("IN_PROGRESS")) {
+          return;
+        }
         WritableMap result = Arguments.createMap();
         WritableMap taskMap = convertTransferObserver(task);
         if (taskMap.getDouble("bytes") <= bytesTotal) {
@@ -217,6 +221,12 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
     credentialsOptions.put("cognito_region", options.getString("cognito_region"));
     credentialsOptions.put("caching", options.getBoolean("caching"));
     promise.resolve(setup(credentialsOptions));
+  }
+
+  @ReactMethod
+  public void enableProgressSent(boolean enabled, Promise promise) {
+    enabledProgress = true;
+    promise.resolve(true);
   }
 
   @ReactMethod

@@ -63,6 +63,7 @@ class S3Sample extends Component {
 				await fs.downloadFile(sampleVideoURL, uploadFilePath);
 			}
 			await transferUtility.setupWithNative();
+			// await transferUtility.enableProgressSent(false);
 
 			const uploadTasks = await transferUtility.getTasks("upload", true);
 			const downloadTasks = await transferUtility.getTasks("download", true);

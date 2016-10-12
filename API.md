@@ -35,6 +35,12 @@ See AWS CognitoCredentialsProvider ([iOS](http://docs.aws.amazon.com/AWSiOSSDK/l
 Return: Promise - will resolve arguments:
 * Boolean - `true` or `false` depending on the setup successful.
 
+#### `transferUtility.enableProgressSent(enabled)`
+
+* enabled Boolean - Allow `in_progress` event send to JS runtime. (Default: true)
+
+Return: Promise
+
 #### `transferUtility.upload(options)`
 
 New a upload task.

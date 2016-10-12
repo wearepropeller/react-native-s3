@@ -3,6 +3,7 @@
 
 static NSMutableDictionary *nativeCredentialsOptions;
 static bool alreadyInitialize = false;
+static bool enabledProgress = true;
 
 @interface RNS3TransferUtility ()
 
@@ -130,6 +131,11 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options resolver:(RCTPromise
   resolve(@([self setup:options]));
 }
 
+RCT_EXPORT_METHOD(enableProgressSent: (BOOL)enabled resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  enabledProgress = NO;
+  resolve(YES);
+}
+
 - (void) sendEvent:(AWSS3TransferUtilityTask *)task type:(NSString *)type state:(NSString *)state bytes:(int64_t)bytes totalBytes:(int64_t)totalBytes error:(NSError *)error {
   NSDictionary *errorObj = nil;
   if (error) {
@@ -140,6 +146,9 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options resolver:(RCTPromise
     };
   }
   
+  if (enabledProgress && [state isEqual: @"in_progress"]) {
+    return;
+  }
   [self.bridge.eventDispatcher
     sendAppEventWithName:@"@_RNS3_Events"
     body:@{
@@ -158,7 +167,7 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options resolver:(RCTPromise
 
 RCT_EXPORT_METHOD(initializeRNS3) {
   if (alreadyInitialize) return;
-  alreadyInitialize = true;
+  alreadyInitialize = NO;
   self.uploadProgress = ^(AWSS3TransferUtilityTask *task, NSProgress *progress) {
     NSLog(@"update");
     [self sendEvent:task

@@ -117,6 +117,10 @@ export default class TransferUtility {
 		return result;
 	}
 
+	enableProgressSent(enabled) {
+		return RNS3TransferUtility.enableProgressSent(enabled);
+	}
+
 	async upload(options = {}) {
 		options.meta = options.meta || {};
 		const task = await RNS3TransferUtility.upload(options);
