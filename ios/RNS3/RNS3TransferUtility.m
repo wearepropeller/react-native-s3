@@ -133,7 +133,7 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options resolver:(RCTPromise
 
 RCT_EXPORT_METHOD(enableProgressSent: (BOOL)enabled resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   enabledProgress = NO;
-  resolve(YES);
+  resolve(@YES);
 }
 
 - (void) sendEvent:(AWSS3TransferUtilityTask *)task type:(NSString *)type state:(NSString *)state bytes:(int64_t)bytes totalBytes:(int64_t)totalBytes error:(NSError *)error {
