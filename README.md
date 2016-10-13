@@ -44,7 +44,7 @@ In XCode, in the project navigator:
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
   [RNS3TransferUtility interceptApplication:application
         handleEventsForBackgroundURLSession:identifier
-                          completionHandler:completionHandler]
+                          completionHandler:completionHandler];
 }
 ```
 
@@ -85,24 +85,27 @@ dependencies {
 }
 ```
 
-* Add package to `MainActivity`
+* Add package to `MainApplication.java`
 
 ```java
 ......
 
 import com.mybigday.rns3.*;   // import
 
-public class MainActivity extends ReactActivity {
-
+public class MainApplication extends Application implements ReactApplication {
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     ......
 
     @Override
     protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new RNS3Package()   // add package
-        );
+      return Arrays.<ReactPackage>asList(
+        new MainReactPackage(),
+        new RNS3Package(),  // add package
+      );
     }
+  };
+
+  ......
 }
 ```
 
@@ -116,17 +119,24 @@ You can use [rnpm](https://github.com/rnpm/rnpm) instead of above steps.
   android:enabled="true" />
 ```
 
-* __*[Optional]*__ you can set the credentials in `MainActivity`:
+* __*[Optional]*__ you can set the credentials in `MainActivity.java`:
 
 ```java
-@Override
-public void onCreate(Bundle savedInstanceState) {
-  super.onCreate(savedInstanceState);
+import android.os.Bundle;
+import com.mybigday.rns3.RNS3TransferUtility;
 
-  RNS3TransferUtility.nativeCredentialsOptions.put("region", "eu-west-1");
-  RNS3TransferUtility.nativeCredentialsOptions.put("type", RNS3TransferUtility.CredentialType.BASIC);
-  RNS3TransferUtility.nativeCredentialsOptions.put("access_key", "your_access_key_here");
-  RNS3TransferUtility.nativeCredentialsOptions.put("secret_key", "your_secret_key_here");
+public class MainActivity extends ReactActivity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    RNS3TransferUtility.nativeCredentialsOptions.put("region", "eu-west-1");
+    RNS3TransferUtility.nativeCredentialsOptions.put("type", RNS3TransferUtility.CredentialType.BASIC);
+    RNS3TransferUtility.nativeCredentialsOptions.put("access_key", "your_access_key_here");
+    RNS3TransferUtility.nativeCredentialsOptions.put("secret_key", "your_secret_key_here");
+  }
+
+  ......
 }
 ```
 
