@@ -1,5 +1,7 @@
 package com.s3sample;
 
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 import com.mybigday.rns3.RNS3TransferUtility;
 
