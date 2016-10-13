@@ -50,8 +50,8 @@ New a upload task.
   * `key` String - the object key/destination in the bucket
   * `file` String - the file path to upload
   * `meta` Object
-    * `contentType` String - the file content-type
-    * `contentMD5` String - the file md5 hash (optional)
+    * `'Content-Type'` String - the file content-type
+    * See: [iOS](http://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3TransferUtilityExpression.html#//api/name/requestHeaders)/[Android](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/model/ObjectMetadata.html#addUserMetadata-java.lang.String-java.lang.String-)
 
 Return: Promise - will resolve, see following arguments:
 * Object - a [Task](#the-task-object-structure) object

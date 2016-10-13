@@ -231,10 +231,13 @@ RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlo
   NSDictionary *meta = [options objectForKey:@"meta"];
   
   AWSS3TransferUtilityUploadExpression *expression = [AWSS3TransferUtilityUploadExpression new];
-  NSString *contentMD5 = [meta objectForKey:@"contentMD5"];
-  if (contentMD5) {
-    expression.contentMD5 = contentMD5;
+  if (meta) {
+    for (id key in meta) {
+      NSString *value = [meta objectForKey:key];
+      [expression setValue:value forRequestHeader:key];
+    }
   }
+
   expression.progressBlock = self.uploadProgress;
 
   AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility S3TransferUtilityForKey:@"RNS3TransferUtility"];

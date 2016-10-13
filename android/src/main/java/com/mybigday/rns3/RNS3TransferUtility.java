@@ -27,6 +27,7 @@ import com.facebook.react.bridge.Promise;
 import com.amazonaws.services.s3.*;
 import com.amazonaws.mobileconnectors.s3.transferutility.*;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -239,16 +240,12 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
 
     TransferObserver task;
     if (meta != null) {
-      try {
-        String contentType = meta.getString("contentType");
-        metaData.setContentType(contentType);
-      } catch (Exception e) {}
-      try {
-        String contentMD5 = meta.getString("contentMD5");
-        metaData.setContentMD5(contentMD5);
-      } catch (Exception e) {}
-      // TODO: more field
-
+      ReadableMapKeySetIterator iter = meta.keySetIterator();
+      while (iter.hasNextKey()) {
+        String propKey = iter.nextKey();
+        String value = meta.getString(propKey);
+        metaData.addUserMetadata(propKey, value);
+      }
       task = transferUtility.upload(bucket, key, file, metaData);
     } else {
       task = transferUtility.upload(bucket, key, file);
