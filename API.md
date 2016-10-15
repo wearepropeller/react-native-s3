@@ -145,7 +145,7 @@ It will not be immediately refresh, you must `subscribe` or call `getTask(id)` t
 
 * `waiting`
 * `in_progress`
-* `pause`
+* `paused`
 * `canceled`
 * `completed`
 * `failed`
