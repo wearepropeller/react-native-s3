@@ -121,12 +121,13 @@ export default class TransferUtility {
 		return RNS3TransferUtility.enableProgressSent(enabled);
 	}
 
-	async upload(options = {}) {
+	async upload(options = {}, others = {}) {
 		options.meta = options.meta || {};
 		const task = await RNS3TransferUtility.upload(options);
 		const extra = {
 			bucket: options.bucket,
-			key: options.key
+			key: options.key,
+			others
 		};
 		if (Platform.OS === "ios") {
 			extra.state = task.state;
@@ -135,11 +136,12 @@ export default class TransferUtility {
 		return finalTask;
 	}
 
-	async download(options = {}) {
+	async download(options = {}, others = {}) {
 		const task = await RNS3TransferUtility.download(options);
 		const extra = {
 			bucket: options.bucket,
-			key: options.key
+			key: options.key,
+			others
 		};
 		if (Platform.OS === "ios") {
 			extra.state = task.state;
