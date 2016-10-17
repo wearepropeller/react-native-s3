@@ -45,7 +45,7 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
   }
 
   private static boolean alreadyInitialize = false;
-  private static boolean enabledProgress = false;
+  private static boolean enabledProgress = true;
   private Context context;
   private AmazonS3 s3;
   private TransferUtility transferUtility;
@@ -226,7 +226,7 @@ public class RNS3TransferUtility extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void enableProgressSent(boolean enabled, Promise promise) {
-    enabledProgress = true;
+    enabledProgress = enabled;
     promise.resolve(true);
   }
 

@@ -132,7 +132,7 @@ RCT_EXPORT_METHOD(setupWithCognito: (NSDictionary *)options resolver:(RCTPromise
 }
 
 RCT_EXPORT_METHOD(enableProgressSent: (BOOL)enabled resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  enabledProgress = NO;
+  enabledProgress = enabled;
   resolve(@YES);
 }
 
