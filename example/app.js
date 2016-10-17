@@ -97,7 +97,7 @@ class S3Sample extends Component {
 			key: uploadFileKey,
 			file: uploadFilePath,
 			meta: {
-				'Content-Type': contentType
+				"Content-Type": contentType
 			}
 		});
 		this.setState({

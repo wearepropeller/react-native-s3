@@ -151,15 +151,15 @@ export default class TransferUtility {
 	}
 
 	pause(id) {
-		RNS3TransferUtility.pause(id);
+		RNS3TransferUtility.pause(Number(id));
 	}
 
 	resume(id) {
-		RNS3TransferUtility.resume(id);
+		RNS3TransferUtility.resume(Number(id));
 	}
 
 	cancel(id) {
-		RNS3TransferUtility.cancel(id);
+		RNS3TransferUtility.cancel(Number(id));
 	}
 
 	// Android only
@@ -167,11 +167,11 @@ export default class TransferUtility {
 		if (Platform.OS === "ios") {
 			throw new Error("Not implemented");
 		}
-		return RNS3TransferUtility.deleteRecord(id);
+		return RNS3TransferUtility.deleteRecord(Number(id));
 	}
 
 	async getTask(id) {
-		const task = await RNS3TransferUtility.getTask(id);
+		const task = await RNS3TransferUtility.getTask(Number(id));
 		if (task) {
 			return putExtra(task);
 		}
