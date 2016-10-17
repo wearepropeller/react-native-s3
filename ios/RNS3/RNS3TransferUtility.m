@@ -146,7 +146,7 @@ RCT_EXPORT_METHOD(enableProgressSent: (BOOL)enabled resolver:(RCTPromiseResolveB
     };
   }
   
-  if (enabledProgress && [state isEqual: @"in_progress"]) {
+  if ([state isEqual: @"in_progress"] && !enabledProgress) {
     return;
   }
   [self.bridge.eventDispatcher
