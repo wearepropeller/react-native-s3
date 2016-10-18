@@ -169,7 +169,6 @@ RCT_EXPORT_METHOD(initializeRNS3) {
   if (alreadyInitialize) return;
   alreadyInitialize = NO;
   self.uploadProgress = ^(AWSS3TransferUtilityTask *task, NSProgress *progress) {
-    NSLog(@"update");
     [self sendEvent:task
                type:@"upload"
               state:@"in_progress"
