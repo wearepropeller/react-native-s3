@@ -1,5 +1,6 @@
 import { NativeModules, NativeAppEventEmitter, DeviceEventEmitter, Platform } from "react-native";
 import store from "react-native-simple-store";
+import { normalizeFilePath } from "./utils";
 
 const { RNS3TransferUtility } = NativeModules;
 
@@ -123,7 +124,10 @@ export default class TransferUtility {
 
 	async upload(options = {}, others = {}) {
 		options.meta = options.meta || {};
-		const task = await RNS3TransferUtility.upload(options);
+		const task = await RNS3TransferUtility.upload({
+			...options,
+			file: normalizeFilePath(options.file)
+		});
 		const extra = {
 			bucket: options.bucket,
 			key: options.key,
@@ -137,7 +141,10 @@ export default class TransferUtility {
 	}
 
 	async download(options = {}, others = {}) {
-		const task = await RNS3TransferUtility.download(options);
+		const task = await RNS3TransferUtility.download({
+			...options,
+			file: normalizeFilePath(options.file)
+		});
 		const extra = {
 			bucket: options.bucket,
 			key: options.key,
