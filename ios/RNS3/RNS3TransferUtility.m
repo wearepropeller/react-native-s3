@@ -243,7 +243,7 @@ RCT_EXPORT_METHOD(upload: (NSDictionary *)options resolver:(RCTPromiseResolveBlo
   [[transferUtility uploadFile:fileURL
                         bucket:[options objectForKey:@"bucket"]
                            key:[options objectForKey:@"key"]
-                   contentType:[meta objectForKey:@"contentType"]
+                   contentType:[meta objectForKey:@"Content-Type"]
                     expression:expression
               completionHander:self.completionUploadHandler] continueWithBlock:^id(AWSTask *task) {
     if (task.error) {
