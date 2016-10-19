@@ -124,6 +124,10 @@ export default class TransferUtility {
 
 	async upload(options = {}, others = {}) {
 		options.meta = options.meta || {};
+		const { contentType } = options.meta;
+		if (contentType) {
+			options.meta["Content-Type"] = contentType;
+		}
 		const task = await RNS3TransferUtility.upload({
 			...options,
 			file: normalizeFilePath(options.file)
