@@ -48,6 +48,8 @@ static bool enabledProgress = true;
   AWSRegionType regionType = AWSRegionUnknown;
   if ([region isEqualToString:@"us-east-1"]) {
     regionType = AWSRegionUSEast1;
+  } else if ([region isEqualToString:@"us-east-2"]) {
+    regionType = AWSRegionUSEast2;
   } else if ([region isEqualToString:@"us-west-1"]) {
     regionType = AWSRegionUSWest1;
   } else if ([region isEqualToString:@"us-west-2"]) {
