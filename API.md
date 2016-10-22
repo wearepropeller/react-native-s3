@@ -119,9 +119,10 @@ Subscribe the task changes with the given id.
   * `err` Object - error information object or null if no error 
   * `task` Object - a [Task](#the-task-object-structure) object
 
-#### `transferUtility.unsubscribe(id)`
+#### `transferUtility.unsubscribe(id, eventHandler)`
 
-Unsubscribe the task changes with the given id.
+Unsubscribe task change listener `eventHandler` with the given id.
+If `eventHandler` is not exists, it will unsubscribe all task change listeners with the given id.
 
 * `id` Number - a Task id
 

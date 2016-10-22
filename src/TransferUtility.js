@@ -20,7 +20,7 @@ const storeKey = "@_RNS3_Tasks_Extra";
  *		 Android: { bucket, key, bytes }
  */
 let taskExtras;
-const subscribeCallbacks = {};	// [id]: function
+const listeners = {};	// [id]: [Function, ...]
 
 let EventEmitter;
 if (Platform.OS === "ios") {
@@ -41,8 +41,8 @@ EventEmitter.addListener("@_RNS3_Events", async event => {
 		const { bytes } = task;
 		finalTask = await setTaskExtra(task, { bytes });
 	}
-	if (subscribeCallbacks[task.id]) {
-		subscribeCallbacks[task.id](error, finalTask);
+	if (listeners[task.id]) {
+		listeners[task.id].forEach(cb => cb(error, finalTask));
 	}
 });
 
@@ -207,10 +207,25 @@ export default class TransferUtility {
 
 	subscribe(id, eventHandler) {
 		if (!taskExtras[id]) return;
-		subscribeCallbacks[id] = eventHandler;
+		if (!listeners[id]) {
+			listeners[id] = [];
+		}
+		const listeners = listeners[id];
+		if (listeners.indexOf(eventHandler) < 0) {
+			listeners.push(eventHandler);
+		}
 	}
 
-	unsubscribe(id) {
-		delete subscribeCallbacks[id];
+	unsubscribe(id, eventHandler) {
+		if (!listeners[id]) return;
+		if (!eventHandler) {
+			delete listeners[id];
+			return;
+		}
+		const listeners = listeners[id];
+		const index = listeners.indexOf(eventHandler);
+		if (index > 0) {
+			listeners.splice(index, 1);
+		}
 	}
 }
