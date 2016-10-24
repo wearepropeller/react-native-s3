@@ -110,7 +110,7 @@ export default class TransferUtility {
 		if (!options.identity_pool_id) {
 			return false;
 		}
-		const result = await RNS3TransferUtility.setupWithBasic({ ...defaultCognitoOptions, ...options });
+		const result = await RNS3TransferUtility.setupWithCognito({ ...defaultCognitoOptions, ...options });
 		if (result) {
 			await getTaskExtras();
 			RNS3TransferUtility.initializeRNS3();
