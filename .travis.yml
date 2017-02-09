@@ -17,4 +17,6 @@ install:
 
 script:
   - npm test
-  - cd example && xcodebuild -scheme S3Sample -project ios/S3Sample.xcodeproj -configuration Release -sdk iphonesimulator -derivedDataPath ios/build
+  - cd example
+  - rm -rf node_modules/react-native-s3
+  - xcodebuild -scheme S3Sample -project ios/S3Sample.xcodeproj -configuration Release -sdk iphonesimulator -derivedDataPath ios/build
