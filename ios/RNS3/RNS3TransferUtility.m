@@ -46,6 +46,9 @@ static NSString* instanceKey = @"RNS3TransferUtility";
                            completionHandler:completionHandler];
 }
 
+/*
+ * Only referenced s3 support: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
+ */
 - (AWSRegionType)regionTypeFromString: (NSString*)region {
   AWSRegionType regionType = AWSRegionUnknown;
   if ([region isEqualToString:@"us-east-1"]) {
@@ -56,22 +59,28 @@ static NSString* instanceKey = @"RNS3TransferUtility";
     regionType = AWSRegionUSWest1;
   } else if ([region isEqualToString:@"us-west-2"]) {
     regionType = AWSRegionUSWest2;
-  } else if ([region isEqualToString:@"eu-west-1"]) {
-    regionType = AWSRegionEUWest1;
-  } else if ([region isEqualToString:@"eu-central-1"]) {
-    regionType = AWSRegionEUCentral1;
+  } else if ([region isEqualToString:@"ca-central-1"]) {
+    regionType = AWSRegionCACentral1;
+  } else if ([region isEqualToString:@"ap-south-1"]) {
+    regionType = AWSRegionAPSouth1;
+  } else if ([region isEqualToString:@"ap-northeast-1"]) {
+    regionType = AWSRegionAPNortheast1;
+  } else if ([region isEqualToString:@"ap-northeast-2"]) {
+    regionType = AWSRegionAPNortheast2;
   } else if ([region isEqualToString:@"ap-southeast-1"]) {
     regionType = AWSRegionAPSoutheast1;
   } else if ([region isEqualToString:@"ap-southeast-2"]) {
     regionType = AWSRegionAPSoutheast2;
-  } else if ([region isEqualToString:@"ap-northeast-1"]) {
-    regionType = AWSRegionAPNortheast1;
+  } else if ([region isEqualToString:@"eu-central-1"]) {
+      regionType = AWSRegionEUCentral1;
+  } else if ([region isEqualToString:@"eu-west-1"]) {
+    regionType = AWSRegionEUWest1;
+  } else if ([region isEqualToString:@"eu-west-2"]) {
+    regionType = AWSRegionEUWest2;
   } else if ([region isEqualToString:@"sa-east-1"]) {
     regionType = AWSRegionSAEast1;
   } else if ([region isEqualToString:@"cn-north-1"]) {
     regionType = AWSRegionCNNorth1;
-  } else if ([region isEqualToString:@"ap-south-1"]) {
-    regionType = AWSRegionAPSouth1;
   }
   return regionType;
 }
