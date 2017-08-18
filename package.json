@@ -1,13 +1,9 @@
 {
   "name": "react-native-s3",
-  "version": "0.0.26",
+  "version": "0.0.28",
   "description": "A React Native wrapper for AWS S3 SDK",
   "main": "./src/index.js",
-  "files": [
-    "android/",
-    "ios/",
-    "src/"
-  ],
+  "files": ["android/", "ios/", "src/"],
   "scripts": {
     "lint": "eslint src test example/*.js",
     "test": "npm run lint && mocha",
@@ -17,13 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/mybigday/react-native-s3.git"
   },
-  "keywords": [
-    "react",
-    "native",
-    "aws",
-    "s3",
-    "transferutility"
-  ],
+  "keywords": ["react", "native", "aws", "s3", "transferutility"],
   "author": "Jhen <developer@jhen.me>",
   "license": "MIT",
   "eslintConfig": {
